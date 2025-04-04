@@ -207,6 +207,8 @@ interface IEvents {
 - `protected setImage(element: HTMLImageElement, src: string, alt?: string)` - устанавливает изображение и альтернативный текст для указанного элемента.  
 - `render(data?: Partial<T>)` - HTMLElement: Рендерит компонент, обновляя его состояние данными data, и возвращает корневой DOM-элемент.
 
+## Модель данных приложения
+
 ### Класс Model
 
 #### Описание:
