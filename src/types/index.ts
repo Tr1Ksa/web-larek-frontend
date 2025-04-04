@@ -1,47 +1,44 @@
-// Интерфейс для описания товара.
+// === ТИПЫ И ИНТЕРФЕЙСЫ ===
+// Интерфейс для описания товара.// Интерфейс для описания товара.
 interface IProduct {
   id: string;
   title: string;
   category: string;
   description: string;
-  price: number;
+  price: number | null;
   image: string;
 }
 
 // Тип для товаров в корзине.
-type IBasketProduct = Pick<IProduct, 'id' | 'title' | 'price'>;
+type TBasketProduct = Pick<IProduct, 'id' | 'title' | 'price'>;
 
 // Тип для товаров в галерее.
-type IGalleryProduct = Omit<IProduct, 'description'>;
+type TGalleryProduct = Omit<IProduct, 'description'>;
 
 // Тип для способов оплаты.
-type PaymentMethod = 'online' | 'cash';
+type TPaymentMethod = 'online' | 'cash';
 
-// Интерфейс о способе оплаты, адресе, email и телефоне.
+// Интерфейс о способе оплаты, адреса доставки, email и телефона.
 interface IUserData {
-  payment: PaymentMethod;
+  payment: string;
   address: string;
   email: string;
   phone: string;
 }
 
 // Тип для формы выбора способа оплаты и адреса доставки.
-type IDeliveryForm = Pick<IUserData, 'payment' | 'address'>;
+type TDeliveryForm = Pick<IUserData, 'payment' | 'address'>;
 
 // Тип для формы контактных данных покупателя.
-type IContactsForm = Pick<IUserData, 'email' | 'phone'>;
+type TContactsForm = Pick<IUserData, 'email' | 'phone'>;
 
 // Тип для объединенной формы заказа.
-type IOrderForm = IDeliveryForm & IContactsForm;
+type TOrderForm = TDeliveryForm & TContactsForm;
 
 // Интерфейс для заказа.
-interface IOrder {
+interface IOrder extends IUserData {
   items: string[];
   total: number;
-  payment: PaymentMethod;
-  address: string;
-  email: string;
-  phone: string;
 }
 
 // Интерфейс для результата оформления заказа.
@@ -51,13 +48,17 @@ interface IOrderResult {
 }
 
 // Тип для успешного результата заказа.
-type ISuccess = Pick<IOrderResult, 'total'>;
+type TSuccess = Pick<IOrderResult, 'total'>;
 
 // Тип для ошибок валидации форм.
-type FormErrors<T> = Partial<Record<keyof T, string | null>>;
+type TFormErrors = Partial<Record<keyof IOrder, string>>;
 
-// Интерфейс для товара, получаемого от API.
-type IApiProduct = IProduct;
-
-// Интерфейс для заказа, получаемого от API.
-type IApiOrderResult = IOrderResult;
+// Интерфейс, для хранения актуального состояния приложения
+interface IAppState {
+	gallery: TGalleryProduct[];
+	basket: TBasketProduct[];
+	preview: string | null;
+	order: IOrder | null;
+	orderResponse: IOrderResult | null;
+	loading: boolean;
+}
