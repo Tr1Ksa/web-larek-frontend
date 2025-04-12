@@ -1,5 +1,7 @@
 // === ТИПЫ И ИНТЕРФЕЙСЫ ===
 
+export { IOrderResult, TOrderForm, IProduct, TGalleryProduct, TBasketProduct, IOrder, TFormErrors, TPaymentMethod, IUserData, TDeliveryForm, TContactsForm, TSuccess, IAppState };
+
 // Интерфейс для описания товара
 interface IProduct {
   id: string;

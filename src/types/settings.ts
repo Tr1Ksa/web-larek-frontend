@@ -11,8 +11,15 @@ export interface Settings {
     cardSettings: {
         text: string;
         image: string;
+        title: string;
+        price: string;
+        category: string;
+        description: string;
+        button: string;
+        basketProductCardIndex: string;
+
     };
-    cardTemplate: string;
+    cardGalleryTemplate: string;
     cardPreviewTemplate: string;
     cardBasketTemplate: string;
 
@@ -21,8 +28,10 @@ export interface Settings {
     basketSettings: {
         activeItemClass: string;
         itemClass: string;
-        price: string;
         deleteButton: string;
+        list: string;
+        total: string;
+        button: string;
     };
 
     // Модальные окна
@@ -78,4 +87,6 @@ export interface Settings {
         formatCurrency: (value: number) => string;
         storageKey: string;
     };
+
+    cardCategories: Record<string, string>;
 }

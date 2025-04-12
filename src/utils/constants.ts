@@ -16,8 +16,14 @@ export const SETTINGS: Settings = {
   cardSettings: {
       text: '.card__text',
       image: '.card__image',
+      title: '.card__title',
+      price: '.card__price',
+      category: '.card__category',
+      description: '.card__text',   
+      button: '.card__button',
+      basketProductCardIndex: '.basket__item-index',
   },
-  cardTemplate: '#card-catalog',
+  cardGalleryTemplate: '#card-catalog',
   cardPreviewTemplate: '#card-preview',
   cardBasketTemplate: '#card-basket',
 
@@ -26,8 +32,12 @@ export const SETTINGS: Settings = {
   basketSettings: {
       activeItemClass: 'basket__item_active',
       itemClass: 'basket__item',
-      price: '.basket__price',
+      total: '.basket__price',
       deleteButton: '.basket__item-delete',
+      list: '.basket__list',
+      button: '.basket__button',
+
+
   },
 
   // Модальные окна
@@ -82,5 +92,14 @@ export const SETTINGS: Settings = {
   appState: {
       formatCurrency: (value: number) => `${value} синапсов`,
       storageKey: '__webLarekCart',
+  },
+
+  // Категории карточек
+  cardCategories: {
+    'хард-скил': '_hard',
+    'софт-скил': '_soft',
+    'дополнительное': '_additional',
+    'кнопка': '_button',
+    'другое': '_other',
   },
 };
