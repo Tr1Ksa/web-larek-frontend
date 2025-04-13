@@ -1,5 +1,3 @@
-// src/components/common/Modal.ts
-
 import { SETTINGS } from "../../utils/constants";
 import {ensureElement} from "../../utils/utils";
 import { Component } from "../base/Components";
@@ -9,6 +7,7 @@ interface IModalData {
   content: HTMLElement;
 }
 
+// Класс модального окна
 export class Modal extends Component<IModalData> {
     protected _closeButton: HTMLButtonElement;
     protected _content: HTMLElement;
@@ -28,17 +27,20 @@ export class Modal extends Component<IModalData> {
         this._content.replaceChildren(value);
     }
 
+    // Открытие модального окна
     open() {
         this.container.classList.add(SETTINGS.modalSettings.activeClass);
         this.events.emit('modal:open');
     }
 
+    // Закрытие модального окна
     close() {
         this.container.classList.remove(SETTINGS.modalSettings.activeClass);
         this.content = null;
         this.events.emit('modal:close');
     }
 
+    // Рендер модального окна
     render(data: IModalData): HTMLElement {
         super.render(data);
         this.open();

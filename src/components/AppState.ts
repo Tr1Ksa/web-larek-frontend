@@ -1,5 +1,3 @@
-// src/components/AppState.ts
-
 import { TGalleryProduct, IAppState, TBasketProduct, IOrder, TFormErrors } from '../types';
 import { Model } from './base/Model';
 import { ICard } from './Card';
@@ -39,6 +37,15 @@ export class AppState extends Model<IAppState> {
 		this.emitChanges('counter:changed', this.basket);
 		this.emitChanges('basket:changed', this.basket);
 	}
+  
+	// Метод переключения товара в корзине
+	toggleBasketItem(item: ICard) {
+		if (this.basket.includes(item)) {
+				this.removeFromBasket(item);
+		} else {
+				this.addToBasket(item);
+		}
+	}
 	// Метод очистки корзины
 	clearBasket() {
 		this.basket = [];
@@ -65,7 +72,7 @@ export class AppState extends Model<IAppState> {
 
 		if (!this.order.payment)
 			errors.payment = 'Необходимо указать способ оплаты';
-		if (!this.order.address) errors.address = 'Необходимо указать адрес';
+		if (!this.order.address) errors.address = 'Необходимо указать адрес доставки';
 
 		if (!this.order.email) errors.email = 'Необходимо указать email';
 		else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.order.email))
@@ -81,7 +88,7 @@ export class AppState extends Model<IAppState> {
 
 		return Object.keys(errors).length === 0;
 	}
- // Метод обновления полей заказа
+  // Метод обновления полей заказа
 	setOrderField(field: keyof IOrder, value: string | number) {
 		if (field === 'total') this.order[field] = value as number;
 		else if (field === 'items') {

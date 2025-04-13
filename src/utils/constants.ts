@@ -36,8 +36,6 @@ export const SETTINGS: Settings = {
       deleteButton: '.basket__item-delete',
       list: '.basket__list',
       button: '.basket__button',
-
-
   },
 
   // Модальные окна
