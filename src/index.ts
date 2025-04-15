@@ -65,11 +65,6 @@ api
 	.then(appData.setGallery.bind(appData))
 	.catch((err) => console.log(err));
 
-// Логирование всех событий (для отладки)
-events.onAll(({ eventName, data }) => {
-	console.log(eventName, data);
-});
-
 // Обновление галереи товаров при изменении данных
 events.on<GalleryChangeEvent>(SETTINGS.EventsApp.itemsChanged, () => {
 	page.gallery = appData.gallery.map((item) => {
@@ -87,7 +82,6 @@ events.on<GalleryChangeEvent>(SETTINGS.EventsApp.itemsChanged, () => {
 
 // Обработка выбора карточки товара
 events.on(SETTINGS.EventsApp.cardSelect, (item: ICard) => {
-	console.log('Card selected:', item);
 	appData.setPreview(item);
 });
 
@@ -196,7 +190,7 @@ events.on(
 
 // Обновление валидности формы
 const updateFormValidity = (
-	form: Form<any>,
+	form: Form<Partial<TOrderForm>>,
 	errors: Record<string, string>
 ) => {
 	const errorMessages = Object.values(errors).filter(Boolean);

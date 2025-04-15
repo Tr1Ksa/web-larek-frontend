@@ -136,14 +136,17 @@ export class Card extends Component<ICard> {
 		return Number(this._price.textContent || '');
 	}
 
-	// Устанавливает категорию товара и обновляет CSS-классы.
+ 	// Устанавливает категорию товара и обновляет CSS-классы.
 	set category(value: string) {
 		if (this._category) {
-			this.setText(this._category, value);
-			const baseClass = this._category.classList[0];
-			this._category.className = '';
-			this._category.classList.add(`${baseClass}`);
-			this._category.classList.add(`${baseClass}${this.categoryKey[value]}`);
+				this.setText(this._category, value);
+				const baseClass = this._category.classList[0];
+					
+				Object.values(this.categoryKey).forEach((key) => {
+						this.toggleClass(this._category, `${baseClass}${key}`, false);
+				});
+	
+				this.toggleClass(this._category, `${baseClass}${this.categoryKey[value]}`, true);
 		}
 	}
 
