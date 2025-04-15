@@ -1,15 +1,29 @@
 // === ТИПЫ И ИНТЕРФЕЙСЫ ===
 
-export { IOrderResult, TOrderForm, IProduct, TGalleryProduct, TBasketProduct, IOrder, TFormErrors, TPaymentMethod, IUserData, TDeliveryForm, TContactsForm, TSuccess, IAppState };
+export {
+	IOrderResult,
+	TOrderForm,
+	IProduct,
+	TGalleryProduct,
+	TBasketProduct,
+	IOrder,
+	TFormErrors,
+	TPaymentMethod,
+	IUserData,
+	TDeliveryForm,
+	TContactsForm,
+	TSuccess,
+	IAppState,
+};
 
 // Интерфейс для описания товара
 interface IProduct {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  price: number | null;
-  image: string;
+	id: string;
+	title: string;
+	category: string;
+	description: string;
+	price: number | null;
+	image: string;
 }
 
 // Тип для товаров в корзине.
@@ -23,10 +37,10 @@ type TPaymentMethod = 'online' | 'cash';
 
 // Интерфейс о способе оплаты, адреса доставки, email и телефона.
 interface IUserData {
-  payment: string;
-  address: string;
-  email: string;
-  phone: string;
+	payment: string;
+	address: string;
+	email: string;
+	phone: string;
 }
 
 // Тип для формы выбора способа оплаты и адреса доставки.
@@ -40,14 +54,14 @@ type TOrderForm = TDeliveryForm & TContactsForm;
 
 // Интерфейс для заказа.
 interface IOrder extends IUserData {
-  items: string[];
-  total: number;
+	items: string[];
+	total: number;
 }
 
 // Интерфейс для результата оформления заказа.
 interface IOrderResult {
-  id: string;
-  total: number;
+	id: string;
+	total: number;
 }
 
 // Тип для успешного результата заказа.
