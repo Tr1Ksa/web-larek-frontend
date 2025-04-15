@@ -27,7 +27,7 @@ export class Page extends Component<IPage> {
 
     // Добавляем обработчик события клика на корзину
     this._basket.addEventListener('click', () =>
-      this.events.emit('basket:open')
+      this.events.emit(SETTINGS.EventsApp.basketOpen)
     );
   }
 
@@ -43,10 +43,6 @@ export class Page extends Component<IPage> {
 
   // Сеттер для блокировки/разблокировки страницы
   set locked(value: boolean) {
-    if (value) {
-      this._wrapper.classList.add(SETTINGS.pageSettings.lockedClass);
-    } else {
-      this._wrapper.classList.remove(SETTINGS.pageSettings.lockedClass);
-    }
+    this.toggleClass(this._wrapper, SETTINGS.pageSettings.lockedClass, value);
   }
 }

@@ -1,4 +1,5 @@
 import { TDeliveryForm, TContactsForm } from "../types";
+import { SETTINGS } from "../utils/constants";
 import { ensureAllElements } from "../utils/utils";
 import { IEvents } from "./base/events";
 import { Form } from "./common/Form";
@@ -10,7 +11,7 @@ export class Order extends Form<TDeliveryForm & TContactsForm> {
     constructor(container: HTMLFormElement, events: IEvents) {
         super(container, events);
 
-        this._payment = ensureAllElements<HTMLButtonElement>('.button_alt', container);
+        this._payment = ensureAllElements<HTMLButtonElement>(SETTINGS.orderSettings.buttonAlt, container);
         this._payment.forEach((button) =>
             button.addEventListener('click', () => this.selected(button.name))
         );
@@ -33,15 +34,15 @@ export class Order extends Form<TDeliveryForm & TContactsForm> {
 
     // Сеттер для установки состояния валидности формы.
     set valid(value: boolean) {
-        this._submit.disabled = !value;
+        this.setDisabled(this._submit, !value);
     }
 
     // Метод для обработки выбора способа оплаты.
     selected(name: string) {
         this._payment.forEach((button) =>
-            this.toggleClass(button, 'button_alt-active', button.name === name)
+            this.toggleClass(button, SETTINGS.orderSettings.paymentMethod.activeClass, button.name === name)
         );
 
-        this.events.emit('order.payment:change', { name });
+        this.events.emit(SETTINGS.EventsApp.orderPaymentChange, { name });
     }
 }

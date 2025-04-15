@@ -32,7 +32,7 @@ const appData = new AppState({}, events);
 
 // Глобальные контейнеры
 const page = new Page(document.body, events);
-const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
+const modal = new Modal(ensureElement<HTMLElement>(SETTINGS.modalContainer), events);
 
 // Переиспользуемые части интерфейса
 const basket = new Basket(cloneTemplate(basketTemplate), events);
@@ -53,35 +53,34 @@ events.onAll(({ eventName, data }) => {
 });
 
 // Обновление галереи товаров при изменении данных
-events.on<GalleryChangeEvent>('items:changed', () => {
-    page.gallery = appData.gallery.map((item) => {
-            const card = new Card(cloneTemplate(cardGalleryTemplate), events, {
-                    onClick: () => events.emit('card:select', item),
-            });
-
-            return card.render({
-                    category: item.category,
-                    title: item.title,
-                    image: item.image,
-                    price: item.price,
-            });
-    });
+events.on<GalleryChangeEvent>(SETTINGS.EventsApp.itemsChanged, () => {
+	page.gallery = appData.gallery.map((item) => {
+			const card = new Card(cloneTemplate(cardGalleryTemplate), events, {
+					onClick: () => events.emit(SETTINGS.EventsApp.cardSelect, item),
+			});
+			return card.render({
+					category: item.category,
+					title: item.title,
+					image: item.image,
+					price: item.price,
+			});
+	});
 });
 
 // Обработка выбора карточки товара
-events.on('card:select', (item: ICard) => {
-    console.log('Card selected:', item);
-    appData.setPreview(item);
+events.on(SETTINGS.EventsApp.cardSelect, (item: ICard) => {
+	console.log('Card selected:', item);
+	appData.setPreview(item);
 });
 
 // Обновление модального окна с превью товара
-events.on('preview:changed', (item: ICard) => {
-    const card = new Card(cloneTemplate(cardPreviewTemplate), events, {
-            onClick: () => {
-                    events.emit('card:toBasket', item);
-                    card.updateButtonState(appData.basket.includes(item));
-            },
-    });
+events.on(SETTINGS.EventsApp.previewChanged, (item: ICard) => {
+	const card = new Card(cloneTemplate(cardPreviewTemplate), events, {
+			onClick: () => {
+					events.emit(SETTINGS.EventsApp.cardToBasket, item);
+					card.updateButtonState(appData.basket.includes(item));
+			},
+	});
 
     modal.render({
             content: card.render({
@@ -98,33 +97,33 @@ events.on('preview:changed', (item: ICard) => {
 });
 
 // Добавление или удаление товара из корзины
-events.on('card:toBasket', (item: ICard) => {
-    appData.toggleBasketItem(item);
+events.on(SETTINGS.EventsApp.cardToBasket, (item: ICard) => {
+	appData.toggleBasketItem(item);
 });
 
 // Добавление товара в корзину
-events.on('product:add', (item: ICard) => {
-    appData.addToBasket(item);
-    modal.close();
+events.on(SETTINGS.EventsApp.productAdd, (item: ICard) => {
+	appData.addToBasket(item);
+	modal.close();
 });
 
 // Удаление товара из корзины
-events.on('product:delete', (item: ICard) => {
-    appData.removeFromBasket(item);
-    basket.selected = appData.basket;
+events.on(SETTINGS.EventsApp.productDelete, (item: ICard) => {
+	appData.removeFromBasket(item);
+	basket.selected = appData.basket;
 });
 
 // Обновление счетчика товаров в корзине
-events.on('counter:changed', () => (page.counter = appData.basket.length));
+events.on(SETTINGS.EventsApp.counterChanged, () => (page.counter = appData.basket.length));
 
 // Открытие модального окна с корзиной
-events.on('basket:open', () => modal.render({ content: basket.render() }));
+events.on(SETTINGS.EventsApp.basketOpen, () => modal.render({ content: basket.render() }));
 
 // Обновление содержимого корзины
-events.on('basket:changed', (items: ICard[]) => {
+events.on(SETTINGS.EventsApp.basketChanged, (items: ICard[]) => {
     basket.items = items.map((item, basketProductCardIndex) => {
             const card = new Card(cloneTemplate(cardBasketTemplate), events, {
-                    onClick: () => events.emit('product:delete', item),
+                    onClick: () => events.emit(SETTINGS.EventsApp.productDelete, item),
             });
             return card.render({
                     basketProductCardIndex: (basketProductCardIndex + 1).toString(),
@@ -138,7 +137,7 @@ events.on('basket:changed', (items: ICard[]) => {
 });
 
 // Открытие формы заказа
-events.on('order:open', () => {
+events.on(SETTINGS.EventsApp.orderOpen, () => {
     appData.order.items = appData.basket.map((item) => item.id);
     modal.render({
             content: order.render({
@@ -151,7 +150,7 @@ events.on('order:open', () => {
 });
 
 // Открытие формы контактов
-events.on('order:submit', () => {
+events.on(SETTINGS.EventsApp.orderSubmit, () => {
     appData.contactsReset();
     modal.render({
             content: contacts.render({
@@ -164,7 +163,7 @@ events.on('order:submit', () => {
 });
 
 // Обработка изменения способа оплаты
-events.on('order.payment:change', ({ name }: { name: string }) => {
+events.on(SETTINGS.EventsApp.orderPaymentChange, ({ name }: { name: string }) => {
     appData.order.payment = name;
      appData.validateOrderForm();
 });
@@ -177,7 +176,7 @@ const updateFormValidity = (form: Form<any>, errors: Record<string, string>) => 
 };
 
 // Обработка изменений ошибок в форме
-events.on('formErrors:change', (errors: Partial<TOrderForm>) => {
+events.on(SETTINGS.EventsApp.formErrorsChange, (errors: Partial<TOrderForm>) => {
     updateFormValidity(order, { payment: errors.payment, address: errors.address });
     updateFormValidity(contacts, { email: errors.email, phone: errors.phone });
 });
@@ -194,16 +193,25 @@ const handleFormInputChange = (field: string, value: string) => {
 events.on(/^(order|contacts)\..*:change/, (data: { field: string; value: string }) => {
     handleFormInputChange(data.field, data.value);
 });
-
+ 
 // Отправка заказа
-events.on('contacts:submit', () => {
-    api.createOrder(appData.order)
-            .then(() => {
-                    success.total = `Списано ${appData.order.total} синапсов`;
-                    appData.clearBasket();
-                    modal.render({
-                            content: success.render({}),
-                    });
-            })
-            .catch((err) => console.error(err));
+events.on(SETTINGS.EventsApp.contactsSubmit, () => {
+	api.createOrder(appData.order)
+			.then(() => {
+					success.total = `Списано ${appData.order.total} ${SETTINGS.labelTexts.synapseCurrency}`;
+					appData.clearBasket();
+					appData.clearOrderForm();
+					appData.contactsReset();
+					modal.render({
+							content: success.render({}),
+					});
+			})
+			.catch((err) => console.error(err));
+});
+
+// Обработка закрытия модального окна
+events.on(SETTINGS.EventsApp.modalClose, () => {
+	if (!order.valid) {
+			appData.clearOrderForm();
+	}
 });

@@ -27,17 +27,17 @@ export class Modal extends Component<IModalData> {
         this._content.replaceChildren(value);
     }
 
-    // Открытие модального окна
+   // Открытие модального окна
     open() {
-        this.container.classList.add(SETTINGS.modalSettings.activeClass);
-        this.events.emit('modal:open');
-    }
+        this.toggleClass(this.container, SETTINGS.modalSettings.activeClass, true);
+        this.events.emit(SETTINGS.EventsApp.modalOpen);
+}
 
     // Закрытие модального окна
     close() {
-        this.container.classList.remove(SETTINGS.modalSettings.activeClass);
+        this.toggleClass(this.container, SETTINGS.modalSettings.activeClass, false);
         this.content = null;
-        this.events.emit('modal:close');
+        this.events.emit(SETTINGS.EventsApp.modalClose);
     }
 
     // Рендер модального окна

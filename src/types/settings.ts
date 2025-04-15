@@ -35,6 +35,7 @@ export interface Settings {
     };
 
     // Модальные окна
+    modalContainer: string;
     modalTemplate: string;
     modalSettings: {
         close: string;
@@ -49,9 +50,11 @@ export interface Settings {
     orderSettings: {
         address: string;
         paymentMethod: {
+            activeClass: string;
             card: string;
             cash: string;
         };
+        buttonAlt: string;
         nextButton: string;
         errors: string;
     };
@@ -88,5 +91,52 @@ export interface Settings {
         storageKey: string;
     };
 
+    // Категории карточек
     cardCategories: Record<string, string>;
+
+    errorsText: {
+        payment: string;
+        address: string;
+        email: string;
+        invalidEmail: string;
+        phone: string;
+        invalidPhone: string;
+    },
+    regexp: {
+        email: string;
+        phone: string;
+    },
+
+    // События
+    EventsApp: {
+        itemsChanged: string;
+        cardSelect: string;
+        previewChanged: string;
+        cardToBasket: string;
+        productAdd: string;
+        productDelete: string;
+        counterChanged: string;
+        basketOpen: string;
+        basketChanged: string;
+        orderOpen: string;
+        orderSubmit: string;
+        contactsSubmit: string;
+        formErrorsChange: string;
+        orderPaymentChange: string;
+        modalOpen: string;
+        modalClose: string;
+        orderSuccess: string;
+    },
+
+    buttonTitles: {
+        addToBasket: string;
+        removeFromBasket: string;
+    },
+
+    labelTexts: {
+        noPriceText: string;
+        basketEmpty: string;
+        synapseCurrency: string;
+      }
+
 }

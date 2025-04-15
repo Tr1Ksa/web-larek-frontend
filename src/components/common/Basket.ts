@@ -25,7 +25,7 @@ export class Basket extends Component<IBasketView> {
         this._button = ensureElement<HTMLElement>(SETTINGS.basketSettings.button, this.container);
 
         if (this._button) {
-            this._button.addEventListener('click', () => events.emit('order:open'));
+            this._button.addEventListener('click', () => events.emit(SETTINGS.EventsApp.orderOpen));
         }
 
         this.items = [];
@@ -39,7 +39,7 @@ export class Basket extends Component<IBasketView> {
         } else {
             this._list.replaceChildren(
                 createElement<HTMLParagraphElement>('p', {
-                    textContent: 'Корзина пуста',
+                    textContent: SETTINGS.labelTexts.basketEmpty,
                 })
             );
             this.setDisabled(this._button, true);
@@ -57,6 +57,6 @@ export class Basket extends Component<IBasketView> {
 
     // Сеттер для установки общей стоимости товаров в корзине
     set total(total: number) {
-        this.setText(this._total, `${total.toString()} синапсов`);
+        this.setText(this._total, `${total} ${SETTINGS.labelTexts.synapseCurrency}`);
     }
 }

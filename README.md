@@ -275,6 +275,7 @@ interface IAppState {
 - `setPreview(item: ICard): void` - устанавливает ID товара для предпросмотра.  
 - `validateOrderForm(): boolean` - проверяет поля формы заказа (способ оплаты, адрес, email, телефон) и обновляет свойство `formErrors`.  
 - `setOrderField(field: keyof IOrder, value: string | number): void` - Обновляет конкретное поле, если форма проходит валидацию после обновления.  
+- `clearOrderForm(): void` - сбрасывает поля `payment` и `address`.
 - `contactsReset(): void` - сбрасывает поля `email` и `phone`.  
 
 ## Классы представления

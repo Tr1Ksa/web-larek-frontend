@@ -39,6 +39,7 @@ export const SETTINGS: Settings = {
   },
 
   // Модальные окна
+  modalContainer: '#modal-container',
   modalTemplate: '#modal',
   modalSettings: {
       close: '.modal__close',
@@ -53,9 +54,11 @@ export const SETTINGS: Settings = {
   orderSettings: {
       address: 'input[name=address]',
       paymentMethod: {
+          activeClass: 'button_alt-active',
           card: 'button[name=card]',
           cash: 'button[name=cash]',
       },
+      buttonAlt:'.button_alt',
       nextButton: '.order__button',
       errors: '.form__errors',
   },
@@ -100,4 +103,54 @@ export const SETTINGS: Settings = {
     'кнопка': '_button',
     'другое': '_other',
   },
+
+  // Текст ошибок
+  errorsText: {
+      payment: 'Необходимо указать способ оплаты',
+      address: 'Необходимо указать адрес доставки',
+      email: 'Необходимо указать email',
+      invalidEmail: 'Некорректный формат email',
+      phone: 'Необходимо указать номер телефона',
+      invalidPhone: 'Некорректный формат номера телефона',
+  },
+
+    // Регулярные выражения
+  regexp: {
+      email: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+      phone: '^(\\+7|8)(\\s?\\(?\\d{3}\\)?|\\d{3})[\\s\\-]?\\d{3}[\\s\\-]?\\d{2}[\\s\\-]?\\d{2}$',
+  },
+
+   // События приложения
+   EventsApp: {
+    itemsChanged: 'items:changed',
+    cardSelect: 'card:select',
+    previewChanged: 'preview:changed',
+    cardToBasket: 'card:toBasket',
+    productAdd: 'product:add',
+    productDelete: 'product:delete',
+    counterChanged: 'counter:changed',
+    basketOpen: 'basket:open',
+    basketChanged: 'basket:changed',
+    orderOpen: 'order:open',
+    orderSubmit: 'order:submit',
+    contactsSubmit: 'contacts:submit',
+    formErrorsChange: 'formErrors:change',
+    orderPaymentChange: 'order.payment:change',
+    modalOpen: 'modal:open',
+    modalClose: 'modal:close',
+    orderSuccess: 'order:success',
+  },
+  
+
+  buttonTitles: {
+    addToBasket: 'В корзину',
+    removeFromBasket: 'Удалить из корзины'
+  },
+
+  labelTexts: {
+    noPriceText: 'Бесценно',
+    basketEmpty: 'Корзина пуста',
+    synapseCurrency: 'синапсов'
+  }
+
 };

@@ -46,16 +46,16 @@ export class Card<T> extends Component<ICard> {
 
   // Отключает кнопку, если цена товара равна null.
   disableButton(value: number | null) {
-    if (!value && this._button) {
-      this._button.disabled = true;
+    if (this._button) {
+      this.setDisabled(this._button, !value);
     }
   }
 
   // Обновляет текст кнопки в зависимости от состояния товара в корзине.
   updateButtonState(isInBasket: boolean) {
     this.buttonTitle = isInBasket 
-      ? 'Удалить из корзины' 
-      : 'В корзину';
+      ? SETTINGS.buttonTitles.removeFromBasket
+      : SETTINGS.buttonTitles.addToBasket;
   }
 
   // Устанавливает ID товара.
@@ -68,10 +68,10 @@ export class Card<T> extends Component<ICard> {
     return this.container.dataset.id || "";
   }
 
-  // Устанавливает индекс товара в корзине.
+   // Устанавливает индекс товара в корзине.
   set basketProductCardIndex(value: string) {
     if (this._basketProductCardIndex) {
-      this._basketProductCardIndex.textContent = value;
+      this.setText(this._basketProductCardIndex, value);
     }
   }
 
@@ -90,10 +90,10 @@ export class Card<T> extends Component<ICard> {
     return this._title.textContent || "";
   }
 
-  // Устанавливает текст на кнопке.
+ // Устанавливает текст на кнопке.
   set buttonTitle(value: string) {
     if (this._button) {
-      this._button.textContent = value;
+      this.setText(this._button, value);
     }
   }
 
@@ -108,7 +108,7 @@ export class Card<T> extends Component<ICard> {
   set price(value: number | null) {
     this.setText(
       this._price,
-      value ? SETTINGS.appState.formatCurrency(value) : 'Бесценно'
+      value ? SETTINGS.appState.formatCurrency(value) : SETTINGS.labelTexts.noPriceText
     );
     this.disableButton(value);
   }

@@ -45,7 +45,7 @@ export class Form<T> extends Component<IFormState> {
 
     // Сеттер для установки состояния валидности формы
     set valid(value: boolean) {
-        this._submit.disabled = !value;
+        this.setDisabled(this._submit, !value);
     }
 
     // Сеттер для установки текста ошибок
